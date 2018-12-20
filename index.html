@@ -1,4 +1,3 @@
-<!DOCTYPE <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,8 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td,
+        th {
+            border: 1px solid black;
+            text-align: center;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: beige;
+        }
+        .onClickId{
+            cursor: pointer;
+        }
+        .onClickId:hover{
+            background-color: deepskyblue;
+        }
+
+    </style>
 </head>
 <body>
     
+    <!-- Henter jquerys library, for at kunne bruge $-->
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <table>
+        <ul id="liste"></ul>
+        
+        <tr>
+        <th>Info 1</th>
+        <th>Info 2</th>
+        <th>Info 3</th>
+        <th>Info 4</th>
+        <th>Info 5</th>
+        <th>Info 6</th>
+        <th>Info 7</th>
+        </tr>
+
+        <tr>
+            <th id="id_1">yeet</th>
+            <th id="id_2">yeet</th>
+            <th id="id_3">yeet</th>
+            <th id="id_4">yeet</th>
+            <th id="id_5">yeet</th>
+            <th id="id_6">yeet</th>
+            <th id="id_7">yeet</th>
+        </tr>
+    </table>
+
+
+<script>
+
+hentinfo();
+
+function hentinfo(){  
+//deklarerer variabel
+    var xmlhttp = new XMLHttpRequest();
+
+    // ved ready state change, som beskriver hvornår requested er behandlet. 
+    xmlhttp.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200){
+
+        console.log("Hello World");
+        console.log("response : " + this.response);
+
+    // konverterer response til et json object
+    var obj = JSON.parse(this.response);
+
+    // .append indsætter data ind i html elementet. 
+    var startappend = "<tr><th>ID</th><th>value1</th><th>value2</th><th>value3</th><th>value4</th><th>value5</th><th>value6</th></tr>"
+    $('#liste').append($(startappend));
+    
+    // opbygger html list for at vise de data, der er i databasen. 
+    for(let index = 0; index < obj.length; index++){
+        
+        var start = '<tr>';
+        
+        var ID     = '<td id"' + obj[index].ID + '" class = "onClickId" onClick = "hentinfo2(this.id)" >'+ obj[index].ID + ' </td>'
+        var value1 = '<td>'+ obj[index].value1+' </td>'
+        var value2 = '<td>'+ obj[index].value2+' </td>'
+        var value3 = '<td>'+ obj[index].value3+' </td>'
+        var value4 = '<td>'+ obj[index].value4+' </td>'
+        var value5 = '<td>'+ obj[index].value5+' </td>'
+        var value6 = '<td>'+ obj[index].value6+' </td>'
+        
+                    
+        var slut = '</tr>'
+
+        var afslutning = start+ID+value1+value2+value3+value4+value5+value6+slut;
+        $('#liste').append($(afslutning));
+         }
+    }
+}
+        // En metode, der indtager 3 parametre. Request type, url for request, samt om requested skal køre synkront eller asynkront. 
+            xmlhttp.open("GET", "http://localhost:5050/hent", true);
+            xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xmlhttp.send();
+}
+
+
+function hentinfo2(idnr){
+
+    var params = "idnr=" + idnr +";";
+    var xmlhttp2 = new XMLHttpRequest();
+    xmlhttp2.onreadystatechange = function() {
+        if(this.readyState ==4 && this.status == 200){
+            
+            //test
+            console.log("hello world");
+            
+            //parser til object
+            var obj2 = JSON.parse(this.response);
+            
+            //data for anden table
+            document.getElementById("id_1").innerHTML = obj2[0].sec_ID;
+            document.getElementById("id_2").innerHTML = obj2[0].sec_value1;
+            document.getElementById("id_3").innerHTML = obj2[0].sec_value2;
+            document.getElementById("id_4").innerHTML = obj2[0].sec_value3;
+            document.getElementById("id_5").innerHTML = obj2[0].sec_value4;
+            document.getElementById("id_6").innerHTML = obj2[0].sec_value5;
+        }
+    }
+    xmlhttp2.open("POST", "http://localhost:5050/hentinfo2", true);
+    xmlhttp2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp2.send(params);
+}
+
+</script>
 </body>
 </html>
