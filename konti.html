@@ -6,11 +6,17 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
     <style>
+        body{
+            background-color: lightblue;
+        }
+        liste {
+            left: 25%;
+        }
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
-            
+            position: relative;
         }
         td,
         th {
@@ -27,52 +33,96 @@
         .onClickId:hover{
             background-color: deepskyblue;
         }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;    
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
     </style>
 </head>
 <body>
     
+        <div class="dropdown">
+                <button class="dropbtn">Dropdown</button>
+                <div class="dropdown-content">
+                  <a href="http://localhost:5050/hent">Get Request</a>
+                  <a href="#">Link 2</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div>
     <!-- Henter jquerys library, for at kunne bruge $-->
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
     <table>
         <ul id="liste"></ul>
-        
-        <tr>
-        <th>konto_nr</th>
-        <th>kunde_id</th>
-        <th>valutatype</th>
-        <th>saldo</th>
-        </tr>
-        <tr>
-            <th id="id_1">1323419382</th>
-            <th id="id_2">ai18jd48ahj</th>
-            <th id="id_3">BTC(Bitcoin)</th>
-            <th id="id_4">10.7</th>
-        </tr>
-    </table>
 
-    <table>
-        <ul id="liste"></ul>
-        
+    <!--Definerer hvilke headers, der skal være i det nederste table.-->    
         <tr>
+        <th>id</th>
         <th>konto_nr</th>
         <th>kunde_id</th>
         <th>valutatype</th>
         <th>saldo</th>
         </tr>
+
+        <!--Dummy data, som er indtastet i databasen(jeg har ikke kunnet hente det endnu)-->
         <tr>
-            <th id="id_1">1323419382</th>
-            <th id="id_2">ai18jd48ahj</th>
-            <th id="id_3">BTC(Bitcoin)</th>
-            <th id="id_4">10.7</th>
+            <th id="id_1">1</th>
+            <th id="id_2">1323419382</th>
+            <th id="id_3">ai18jd48ahj</th>
+            <th id="id_4">BTC(Bitcoin)</th>
+            <th id="id_5">10.7</th>
         </tr>
     </table>
 
 <script>
 
 hentkunde();
-
 function hentkunde(){  
 //deklarerer variabel
     var xmlhttp = new XMLHttpRequest();
@@ -81,7 +131,6 @@ function hentkunde(){
     xmlhttp.onreadystatechange = function(){
     if (this.readyState == 4 && this.status == 200){
 
-        console.log("Hello World");
         console.log("response : " + this.response);
 
     // konverterer response til et json object
@@ -92,11 +141,12 @@ function hentkunde(){
     $('#liste').append($(startappend));
     
     // opbygger html list for at vise de data, der er i databasen. 
+    
     for(let index = 0; index < obj.length; index++){
         
         var start = '<tr>';
         
-        var unik_id     = '<td id"' + obj[index].unik_id + '" class = "onClickId" onClick = "hentinfo2(this.id)" >'+ obj[index].unik_id + ' </td>'
+        var unik_id = '<td id"' + obj[index].unik_id + '" class = "onClickId" onClick = "hentkonto(this.id)" >'+ obj[index].unik_id + ' </td>'
         var pass = '<td>'+ obj[index].password+' </td>'
         var cpr = '<td>'+ obj[index].cpr_nummer+' </td>'
         var navn = '<td>'+ obj[index].navn+' </td>'
@@ -114,10 +164,9 @@ function hentkunde(){
             xmlhttp.send();
 }
 
-
 function hentkonto(idnr){
 
-    var params = "idnr=" + idnr +";";
+    var params = "id=" + idnr +";";
     var xmlhttp2 = new XMLHttpRequest();
     xmlhttp2.onreadystatechange = function() {
         if(this.readyState ==4 && this.status == 200){
@@ -129,18 +178,17 @@ function hentkonto(idnr){
             var obj2 = JSON.parse(this.response);
             
             //data for anden table
-            document.getElementById("id_1").innerHTML = obj2[0].konto_nr;
-            document.getElementById("id_2").innerHTML = obj2[0].kunde_id;
-            document.getElementById("id_3").innerHTML = obj2[0].valutatype;
-            document.getElementById("id_4").innerHTML = obj2[0].saldo;
-        
+            document.getElementById("id_1").innerHTML = obj2[0].id;
+            document.getElementById("id_2").innerHTML = obj2[0].konto_nr;
+            document.getElementById("id_3").innerHTML = obj2[0].kunde_id;
+            document.getElementById("id_4").innerHTML = obj2[0].valutatype;
+            document.getElementById("id_5").innerHTML = obj2[0].saldo;
         }
     }
     xmlhttp2.open("GET", "http://localhost:5050/hentinfo2", true);
     xmlhttp2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp2.send(params);
 }
-
 </script>
 </body>
 </html>

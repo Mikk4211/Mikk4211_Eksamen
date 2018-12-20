@@ -78,12 +78,12 @@ exports.hentinfo2 = function(req, res){
     con.connect(function (err) {
         if(err) throw err;
     });
-    con.query("use eksamen_db;", function(err, result){
+    con.query("use cryptobank;", function(err, result){
         //Tjekker efter fejl. Ingen fejl = connected.
         if(err) throw(err); 
         console.log("Connected. ")
 
-    con.query("SELECT * FROM " + "db_table2" + "WHERE ID =  + "+req.body.idnr+" + ORDER BY " + "sec_ID" + " LIMIT 1 ", function(err, result) {
+    con.query("SELECT * FROM " + "konto_table" + "WHERE id =  + "+req.body.id+" + ORDER BY " + "id" + " LIMIT 1 ", function(err, result) {
         if(err) throw err;
         res.send(result);
     });
