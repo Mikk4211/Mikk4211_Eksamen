@@ -1,0 +1,13 @@
+Når der oprettes en forbindelse mellem to computere via en socket, sker der et par ting. 
+To computere forsøger at connecte til en socket(i det her tilfælde chatten). Når de connecter venter socketen 
+på et svar, og når den får et svar fra serveren bliver de to forbundet. Der laves derved en session.
+
+Denne operation tager da sted i det 5. lag af OSI modellen (session-laget). Dette lag står for at 
+forbinde, vedligeholde og afskaffe forbindelsen, som de to personer kommer undervejs (først forbindes der, 
+derefter interagere de, og forbindelsen skal vedligeholdes, og til sidst når de er færdige skal forbindelsen afskaffes.)
+
+I den socket opgave vi har lavet (https://github.com/Mikk4211/KrydsOgBolleSocket), skal vi bruge et portnummer at connecte til, 
+samt en ip. Hvis to computere skulle snakke sammen, der ikke nødvendigvis er på samme netværk, skal der nok bruges en IP fra hver computer.
+
+Jeg ville bruge TCP, da det er oplagt for et kommunikationssystem. Med TCP bliver al data transmitteret, så man sikrer sig at alle packages
+er sendt og modtaget (vigtigt for et chatsystem, da at mangle en bid af en besked grundet packetloss er uacceptabelt). 

@@ -16,7 +16,7 @@ var mysql = require('mysql');
 app.get('/', function(req, res){
 
 // Sender file fra res. __dirname er hvilket directory man ønsker at sende fra, og stringen er så den fil.  
-res.sendFile(__dirname + '/index.html')
+res.sendFile(__dirname + '/konti.html')
 })
 
 // Nu skal vi forbinde til databasen, ved at lave sql queries. 
@@ -32,14 +32,14 @@ var con = mysql.createConnection({
 app.get('/hent', function(req,res){
 
 // Her forbinder jeg til databasen. 
-con.query("use eksamen_db;", function(err, result) {
+con.query("use cryptobank;", function(err, result) {
     if(err) throw err;
     console.log('Forbundet til databasen!');
 });
 // Jeg henter table fra databasen. 
-con.query("select * from db_table1", function(err, result){
+con.query("select * from kunde_table", function(err, result){
     if(err) throw err;
-    console.log('Selected * from db_table1');
+    console.log('Selected * from kunde_table');
 
 // Det, der bliver sendt til locahost, så man kan se hvad der bliver printed.
 res.send(result);
@@ -52,14 +52,14 @@ app.post('/opret', function(req,res) {
     con.connect(function(err){
     if(err) throw err;
     console.log('Forbundet til databasen. ')
-    con.query("use eksamen_db;", function(err, result){
+    con.query("use cryptobank;", function(err, result){
         if(err) throw err;
         console.log('Forbundet.')
     });
 
 
     // Deklarerer de værdier, jeg ønsker at indsætte. 
-    con.query("insert into db_table1(ID, value1, value2, value3, value4, value5, value6) values ("+req.body.ID+",'"+req.body.value1+"','"+req.body.value2+"','"+req.body.value3+"', '"+req.body.value4+"','"+req.body.value5+"','"+req.body.value6+"');", function (err, result){
+    con.query("insert into kunde_table(unik_id, password, cpr_nummer, navn, adresse) values ("+req.body.unik_id+",'"+req.body.password+"',"+req.body.cpr_nummer+",'"+req.body.navn+"', '"+req.body.adresse+"');", function (err, result){
         if(err) throw err;
         console.log('Indsat.');
         // localhost:5050/hent

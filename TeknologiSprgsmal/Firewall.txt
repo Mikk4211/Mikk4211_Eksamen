@@ -1,0 +1,9 @@
+Den firewall jeg ville sætte op til dette kommunikationssystem ville være enten en Stateful Inspection firewall
+eller en proxy firewall. Mine valg er grundet at Stateful Inspection tager og checker(inspecter) de packets
+der bliver sendt til dig, og laver et TCP handshake. Yderligere inspecter SI Firewalls de packages der bliver sendt, 
+og tjekker at der ikke er noget dårligt ved dem.
+
+Grunden til at jeg ville vælge en proxy firewall er fordi er fordi firewallen yderligere også connecter til 
+sourcen hvorfra packetten kom fra, for at checke om den er legit. Proxy firewallen checker yderligere om hver enkelt
+packet indeholder malware. Hvis packagen er god nok, bliver den sendt videre. Denne forhindrer i større grad at en anonym
+afsender kan volde skade på andres systemer ved at sende dem malware. 

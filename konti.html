@@ -10,6 +10,7 @@
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
+            
         }
         td,
         th {
@@ -38,32 +39,41 @@
         <ul id="liste"></ul>
         
         <tr>
-        <th>Info 1</th>
-        <th>Info 2</th>
-        <th>Info 3</th>
-        <th>Info 4</th>
-        <th>Info 5</th>
-        <th>Info 6</th>
-        <th>Info 7</th>
+        <th>konto_nr</th>
+        <th>kunde_id</th>
+        <th>valutatype</th>
+        <th>saldo</th>
         </tr>
-
         <tr>
-            <th id="id_1">yeet</th>
-            <th id="id_2">yeet</th>
-            <th id="id_3">yeet</th>
-            <th id="id_4">yeet</th>
-            <th id="id_5">yeet</th>
-            <th id="id_6">yeet</th>
-            <th id="id_7">yeet</th>
+            <th id="id_1">1323419382</th>
+            <th id="id_2">ai18jd48ahj</th>
+            <th id="id_3">BTC(Bitcoin)</th>
+            <th id="id_4">10.7</th>
         </tr>
     </table>
 
+    <table>
+        <ul id="liste"></ul>
+        
+        <tr>
+        <th>konto_nr</th>
+        <th>kunde_id</th>
+        <th>valutatype</th>
+        <th>saldo</th>
+        </tr>
+        <tr>
+            <th id="id_1">1323419382</th>
+            <th id="id_2">ai18jd48ahj</th>
+            <th id="id_3">BTC(Bitcoin)</th>
+            <th id="id_4">10.7</th>
+        </tr>
+    </table>
 
 <script>
 
-hentinfo();
+hentkunde();
 
-function hentinfo(){  
+function hentkunde(){  
 //deklarerer variabel
     var xmlhttp = new XMLHttpRequest();
 
@@ -78,7 +88,7 @@ function hentinfo(){
     var obj = JSON.parse(this.response);
 
     // .append indsætter data ind i html elementet. 
-    var startappend = "<tr><th>ID</th><th>value1</th><th>value2</th><th>value3</th><th>value4</th><th>value5</th><th>value6</th></tr>"
+    var startappend = "<tr><th>unik_id</th><th>password</th><th>cpr_nummer</th><th>navn</th><th>adresse</th></tr>"
     $('#liste').append($(startappend));
     
     // opbygger html list for at vise de data, der er i databasen. 
@@ -86,18 +96,14 @@ function hentinfo(){
         
         var start = '<tr>';
         
-        var ID     = '<td id"' + obj[index].ID + '" class = "onClickId" onClick = "hentinfo2(this.id)" >'+ obj[index].ID + ' </td>'
-        var value1 = '<td>'+ obj[index].value1+' </td>'
-        var value2 = '<td>'+ obj[index].value2+' </td>'
-        var value3 = '<td>'+ obj[index].value3+' </td>'
-        var value4 = '<td>'+ obj[index].value4+' </td>'
-        var value5 = '<td>'+ obj[index].value5+' </td>'
-        var value6 = '<td>'+ obj[index].value6+' </td>'
-        
-                    
+        var unik_id     = '<td id"' + obj[index].unik_id + '" class = "onClickId" onClick = "hentinfo2(this.id)" >'+ obj[index].unik_id + ' </td>'
+        var pass = '<td>'+ obj[index].password+' </td>'
+        var cpr = '<td>'+ obj[index].cpr_nummer+' </td>'
+        var navn = '<td>'+ obj[index].navn+' </td>'
+        var adresse = '<td>'+ obj[index].adresse+' </td>'                
         var slut = '</tr>'
 
-        var afslutning = start+ID+value1+value2+value3+value4+value5+value6+slut;
+        var afslutning = start+unik_id+pass+cpr+navn+adresse+slut;
         $('#liste').append($(afslutning));
          }
     }
@@ -109,7 +115,7 @@ function hentinfo(){
 }
 
 
-function hentinfo2(idnr){
+function hentkonto(idnr){
 
     var params = "idnr=" + idnr +";";
     var xmlhttp2 = new XMLHttpRequest();
@@ -123,15 +129,14 @@ function hentinfo2(idnr){
             var obj2 = JSON.parse(this.response);
             
             //data for anden table
-            document.getElementById("id_1").innerHTML = obj2[0].sec_ID;
-            document.getElementById("id_2").innerHTML = obj2[0].sec_value1;
-            document.getElementById("id_3").innerHTML = obj2[0].sec_value2;
-            document.getElementById("id_4").innerHTML = obj2[0].sec_value3;
-            document.getElementById("id_5").innerHTML = obj2[0].sec_value4;
-            document.getElementById("id_6").innerHTML = obj2[0].sec_value5;
+            document.getElementById("id_1").innerHTML = obj2[0].konto_nr;
+            document.getElementById("id_2").innerHTML = obj2[0].kunde_id;
+            document.getElementById("id_3").innerHTML = obj2[0].valutatype;
+            document.getElementById("id_4").innerHTML = obj2[0].saldo;
+        
         }
     }
-    xmlhttp2.open("POST", "http://localhost:5050/hentinfo2", true);
+    xmlhttp2.open("GET", "http://localhost:5050/hentinfo2", true);
     xmlhttp2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp2.send(params);
 }
