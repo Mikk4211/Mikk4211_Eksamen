@@ -1,0 +1,19 @@
+{
+    "name": "eurotildk",
+    "version": "1.0.0",
+    "description": "Et modul, til omregning af valuta fra dkk til euro eller omvendt ",
+    "main": "omregner.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Mikk4211/Mikk4211_Eksamen"
+    },
+    "author": "Mikkel Sørensen, datamatikerstuderende på Easj Næstved",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Mikk4211/Mikk4211_Eksamen" 
+    },
+    "homepage": "https://github.com/Mikk4211/Mikk4211_Eksamen"
+  }
